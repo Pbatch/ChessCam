@@ -51,13 +51,13 @@ afterEach(() => {
 });
 
 describe("findPieces", () => {
-  it("times moves in record mode, and shows only final moves in play mode", () => {
+  it("times moves in record mode, and reads only the user's move in play mode", () => {
     start("record");
-    expect(fake.options).toMatchObject({ timed: true, finalMovesOnly: false });
+    expect(fake.options).toMatchObject({ timed: true, play: false });
     start("play");
-    expect(fake.options).toMatchObject({ timed: false, finalMovesOnly: true });
+    expect(fake.options).toMatchObject({ timed: false, play: true });
     start("upload");
-    expect(fake.options).toMatchObject({ timed: false, finalMovesOnly: false });
+    expect(fake.options).toMatchObject({ timed: false, play: false });
   });
 
   it("starts from the store's game", () => {
