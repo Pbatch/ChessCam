@@ -27,10 +27,10 @@ interface FindPiecesInput {
 // recorder, paused, to start, pause and give regions to, and a function that stops it.
 export const findPieces = ({ model, video, setText, setFps, setOrientation, moveTextRef, mode }: FindPiecesInput) => {
   const initial = useStore.getState();
-  // Play mode sends moves to Lichess as they are shown and can't take any back, so it shows only final moves.
-  // Record mode times each move, for the PGN.
+  // Play mode reads only the user's move, once it is certain, as it goes to Lichess, which can't take it back; the
+  // opponent's moves come from Lichess, through the store (see below). Record mode times each move, for the PGN.
   const recorder = createRecorder({
-    model, video, start: initial.game.start, timed: mode === "record", finalMovesOnly: mode === "play",
+    model, video, start: initial.game.start, timed: mode === "record", play: mode === "play",
     onUpdate: (game: Game) => {
       useStore.setState({ game });
     },
