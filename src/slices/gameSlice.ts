@@ -20,6 +20,14 @@ export const trackerReset = () => {
   }));
 }
 
+// Starts a new game from the standard position, with a new tracker, as for a new video that shows another game
+export const newGame = () => {
+  useStore.setState((state) => ({
+    game: initialGame,
+    trackerResets: state.trackerResets + 1
+  }));
+}
+
 // Brings the game in line with Lichess's, from its start position and UCI moves. Lichess is the truth,
 // except for moves it has not seen yet, which are ours still being sent.
 export const gameSync = (start: string, uciMoves: string[]) => {

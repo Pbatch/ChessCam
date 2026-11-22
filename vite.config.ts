@@ -1,7 +1,7 @@
 /// <reference types="vitest/config" />
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { defineConfig, type Plugin } from "vite";
+import { defineConfig, type Plugin, searchForWorkspaceRoot } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { VitePWA } from "vite-plugin-pwa";
@@ -9,6 +9,12 @@ import { playwright } from "@vitest/browser-playwright";
 
 const LITERT_WASM_DIR = "node_modules/@litertjs/core/wasm";
 const LITERT_VERSION: string = JSON.parse(readFileSync("node_modules/@litertjs/core/package.json", "utf8")).version;
+// Cross-origin isolation enables SharedArrayBuffer, so the CPU model can use wasm threads, as it does on the live site.
+// credentialless still allows CORS requests, such as the icons from jsDelivr.
+const ISOLATION_HEADERS = {
+  "Cross-Origin-Opener-Policy": "same-origin",
+  "Cross-Origin-Embedder-Policy": "credentialless"
+};
 
 // LiteRT.js loads its wasm runtime from a directory at runtime, so copy it into builds.
 // The directory is versioned, as the service worker caches it first and a newer LiteRT.js
@@ -98,6 +104,10 @@ export default defineConfig({
   ],
   server: {
     watch: { ignored: ["**/.venv/**"] },
+    headers: ISOLATION_HEADERS,
+    // The recorder may be linked from ../ChessCamRecorder ("file:" in package.json), outside this folder, and its
+    // worker is loaded from there
+    fs: { allow: [searchForWorkspaceRoot(process.cwd()), "../ChessCamRecorder"] }
   },
   optimizeDeps: {
     // Pre-bundling would move the recorder's code away from its worker file, which it loads by a URL relative to
@@ -105,12 +115,7 @@ export default defineConfig({
     exclude: ["@chesscam/recorder"]
   },
   preview: {
-    // Cross-origin isolation enables SharedArrayBuffer, so the CPU fallback can use wasm threads.
-    // credentialless still allows CORS requests, such as the icons from jsDelivr.
-    headers: {
-      "Cross-Origin-Opener-Policy": "same-origin",
-      "Cross-Origin-Embedder-Policy": "credentialless"
-    }
+    headers: ISOLATION_HEADERS
   },
   build: {
     chunkSizeWarningLimit: 2000, // handle warning on vendor.js bundle size

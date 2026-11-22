@@ -1,6 +1,6 @@
 {
   "repo": "PBatch23888/chessq-chesscam",
-  "commit": "0c3de0dd34a5e1a60d69e942045fb6dc0f82aeb4",
-  "file": "chessq-chesscam-mnv4m-320-v1-fp16.tflite",
-  "sha256": "460c24aabf289a18b02069dfd957f940aae303862d7859409ad097a339a59013"
+  "commit": "88c6e78d5e88725d199e5cbb6aa19acf80e143f8",
+  "file": "chessq-chesscam-mnv4m-320-v2-fp16.tflite",
+  "sha256": "a878e9c60a660fa68f5b00ccb6cd22cbbf91a0421448d0647bbce0d6e40f4cb2"
 }

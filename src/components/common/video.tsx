@@ -8,8 +8,8 @@ import type {
   SetBoolean, SetStringArray, VideoRef
 } from "../../types";
 import { makeBoard, useGame } from "../../slices/gameSlice";
-import RoiSelector from "./roiSelector";
-import OrientationMarkers, { MARKER_DIAMETER } from "./orientationMarkers";
+import RoiOverlay from "./roiOverlay";
+import OrientationMarkers from "./orientationMarkers";
 import FpsDisplay from "./fpsDisplay";
 import EvalGauge from "./evalGauge";
 import VideoControls from "../upload/videoControls";
@@ -20,15 +20,15 @@ import type { StartBlock } from "./cameraControls";
 const CONTROLS_HEIGHT = { upload: 52, camera: 40 };
 
 const Video = ({ modelRef, videoRef, playing,
-  setPlaying, setText, mode, roi, setRoi, selecting, setSelecting,
+  setPlaying, setText, mode, roi, setRoi,
   canPlay, setCanPlay, engineEnabled = false, startBlock = null }: {
     modelRef: ModelRefs["modelRef"],
     videoRef: VideoRef,
     playing: boolean,
     setPlaying: SetBoolean,
     setText: SetStringArray, mode: Mode,
+    // The region the recorder crops to, which it finds itself
     roi: Roi | null, setRoi: SetRoi,
-    selecting: boolean, setSelecting: SetBoolean,
     canPlay: boolean, setCanPlay: SetBoolean,
     // What the camera modes need chosen before detection can start
     startBlock?: StartBlock | null,
@@ -46,7 +46,7 @@ const Video = ({ modelRef, videoRef, playing,
   const [fps, setFps] = useState<number | null>(null);
   // Whether the upload controls show over the bottom of the video, which the corner markers then move clear of
   const [controlsVisible, setControlsVisible] = useState<boolean>(false);
-  const showControls: boolean = canPlay && !selecting;
+  const showControls: boolean = canPlay;
 
   useEffect(() => {
     moveTextRef.current = getMoveText(makeBoard(game));
@@ -59,13 +59,14 @@ const Video = ({ modelRef, videoRef, playing,
     if (model === null || video === null) {
       return;
     }
-    const found = findPieces({ model, video, setText, setFps, setOrientation, moveTextRef, mode });
+    const found = findPieces({ model, video, setText, setFps, setOrientation, setRoi, moveTextRef, mode });
     setRecorder(found.recorder);
     return () => {
       setRecorder(null);
+      setRoi(null);
       found.stop();
     };
-  }, [mode, modelRef, setText, videoRef]);
+  }, [mode, modelRef, setRoi, setText, videoRef]);
 
   // A new recorder (e.g. after the mode changes) gets the current values too
   useEffect(() => {
@@ -75,10 +76,6 @@ const Video = ({ modelRef, videoRef, playing,
       recorder?.pause();
     }
   }, [playing, recorder]);
-
-  useEffect(() => {
-    recorder?.setRoi(roi);
-  }, [recorder, roi]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -110,10 +107,9 @@ const Video = ({ modelRef, videoRef, playing,
       return;
     }
     setAspectRatio(video.videoWidth / video.videoHeight);
-    // A region drawn at the old size no longer lines up
-    setRoi(null);
+    // The board is looked for afresh, as a region found at the old size no longer lines up
+    recorder?.setRoi(null);
     setOrientation(null);
-    setSelecting(false);
   }
 
   const onCanPlay = () => {
@@ -122,10 +118,9 @@ const Video = ({ modelRef, videoRef, playing,
 
   const onLoadStart = () => {
     setCanPlay(false);
-    // A new source may have a different resolution
-    setRoi(null);
+    // A new source may show the board elsewhere, or have a different resolution
+    recorder?.setRoi(null);
     setOrientation(null);
-    setSelecting(false);
   }
 
   const onError = () => {
@@ -155,13 +150,12 @@ const Video = ({ modelRef, videoRef, playing,
             <video ref={videoRef} autoPlay={mode !== "upload"} playsInline={true} muted={true} disablePictureInPicture={true}
               className="video-live__video" onResize={onResize}
               onCanPlay={onCanPlay} onLoadStart={onLoadStart} onError={onError} onEnded={onEnded} />
-            <RoiSelector videoRef={videoRef} roi={roi} setRoi={setRoi}
-              selecting={selecting} setSelecting={setSelecting} />
-            {!selecting && <OrientationMarkers videoRef={videoRef} roi={roi} orientation={orientation}
+            {/* Only over a picture, and once the board is found: while a new video loads, or the board is looked for,
+                no region or corners apply */}
+            {canPlay && <RoiOverlay videoRef={videoRef} roi={roi} />}
+            {canPlay && (roi !== null) && <OrientationMarkers videoRef={videoRef} roi={roi} orientation={orientation}
               bottomInset={(showControls && controlsVisible) ? CONTROLS_HEIGHT[mode === "upload" ? "upload" : "camera"] : 0} />}
-            {/* Without a region, the markers sit in the video's corners */}
-            <FpsDisplay fps={fps}
-              offset={(!selecting && orientation !== null && roi === null) ? MARKER_DIAMETER : 0} />
+            <FpsDisplay fps={fps} />
             {showControls && (mode === "upload") && <VideoControls videoRef={videoRef} playing={playing}
               setPlaying={setPlaying} setText={setText} onVisible={setControlsVisible} />}
             {showControls && (mode !== "upload") && <CameraControls mode={mode} videoRef={videoRef} playing={playing}

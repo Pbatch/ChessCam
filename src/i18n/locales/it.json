@@ -53,14 +53,6 @@
     "select": "Scegli un dispositivo",
     "selected": "Dispositivo: {{name}}"
   },
-  "region": {
-    "draw": "Disegna area",
-    "drawTitle": "Disegna un'area intorno alla scacchiera",
-    "drawing": "Trascina un riquadro (annulla)",
-    "drawingTitle": "Annulla il disegno dell'area",
-    "clear": "Cancella area",
-    "clearTitle": "Cancella l'area e usa l'intera inquadratura"
-  },
   "position": {
     "label": "Posizione: {{option}}",
     "standard": "Standard",

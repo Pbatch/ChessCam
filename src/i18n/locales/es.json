@@ -53,14 +53,6 @@
     "select": "Elige un dispositivo",
     "selected": "Dispositivo: {{name}}"
   },
-  "region": {
-    "draw": "Dibujar región",
-    "drawTitle": "Dibuja una región alrededor del tablero",
-    "drawing": "Arrastra un recuadro (cancelar)",
-    "drawingTitle": "Cancelar el dibujo de la región",
-    "clear": "Borrar región",
-    "clearTitle": "Borra la región y usa el encuadre completo"
-  },
   "position": {
     "label": "Posición: {{option}}",
     "standard": "Estándar",

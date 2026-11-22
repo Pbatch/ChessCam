@@ -53,14 +53,6 @@
     "select": "Select a Device",
     "selected": "Device: {{name}}"
   },
-  "region": {
-    "draw": "Draw Region",
-    "drawTitle": "Draw a region around the board",
-    "drawing": "Drag a box (cancel)",
-    "drawingTitle": "Cancel drawing the region",
-    "clear": "Clear Region",
-    "clearTitle": "Clear the region and use the full frame"
-  },
   "position": {
     "label": "Position: {{option}}",
     "standard": "Standard",

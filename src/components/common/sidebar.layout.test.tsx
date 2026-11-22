@@ -56,7 +56,6 @@ const renderSidebar = async (mode: Mode, Sidebar: SidebarComponent, playing: boo
     playing, setPlaying: noop,
     text: ["Starting game", "White vs DrNykterstein"], setText: noop,
     roi: null, setRoi: noop,
-    selecting: false, setSelecting: noop,
     canPlay: true,
     study: null, setStudy: noop,
     boardNumber: -1, setBoardNumber: noop,

@@ -9,12 +9,11 @@ import StudyButton from "./studyButton";
 import FenButton from "./fenButton";
 import DeviceButton from "./deviceButton";
 import Toast from "./toast";
-import RoiButton from "./roiButton";
 import ButtonGroup from "./buttonGroup";
 import Dropdown, { DropdownItem } from "./dropdown";
 
 export {
   SidebarButton, PgnButton, Icon,
   Sidebar, SidebarSection, Container, VideoAndSidebar, StudyButton,
-  FenButton, DeviceButton, Toast, RoiButton, ButtonGroup, Dropdown, DropdownItem,
+  FenButton, DeviceButton, Toast, ButtonGroup, Dropdown, DropdownItem,
 };

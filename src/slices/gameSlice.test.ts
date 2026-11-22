@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { gameReset, gameSync, trackerReset } from "./gameSlice";
+import { gameReset, gameSync, newGame, trackerReset } from "./gameSlice";
 import { useStore } from "../store";
 import { makeGame } from "../test/helpers";
 import type { Game } from "../types";
@@ -41,6 +41,17 @@ describe("trackerReset", () => {
     setGame(makeGame());
     const before = useStore.getState().trackerResets;
     trackerReset();
+    expect(useStore.getState().trackerResets).toBe(before + 1);
+  });
+});
+
+describe("newGame", () => {
+  it("goes back to the standard start position, and counts a reset so detection starts a new tracker", () => {
+    const start = "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1";
+    setGame(makeGame("1... e5 2. Nf3", start));
+    const before = useStore.getState().trackerResets;
+    newGame();
+    expect(getGame()).toEqual(makeGame());
     expect(useStore.getState().trackerResets).toBe(before + 1);
   });
 });

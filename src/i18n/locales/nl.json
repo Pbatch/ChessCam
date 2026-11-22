@@ -53,14 +53,6 @@
     "select": "Kies een apparaat",
     "selected": "Apparaat: {{name}}"
   },
-  "region": {
-    "draw": "Gebied tekenen",
-    "drawTitle": "Teken een gebied rond het bord",
-    "drawing": "Sleep een kader (annuleren)",
-    "drawingTitle": "Tekenen van het gebied annuleren",
-    "clear": "Gebied wissen",
-    "clearTitle": "Wis het gebied en gebruik het hele beeld"
-  },
   "position": {
     "label": "Stelling: {{option}}",
     "standard": "Standaard",
