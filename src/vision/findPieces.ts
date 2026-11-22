@@ -1,7 +1,7 @@
 import i18n from "../i18n";
 import { createRecorder, type Game, type Model, type RecorderError } from "@chesscam/recorder";
 import { useStore } from "../store";
-import type { Mode, SetFps, SetOrientation, SetStringArray } from "../types";
+import type { Mode, Roi, SetFps, SetOrientation, SetStringArray } from "../types";
 import type { RefObject } from "react";
 
 // Keeps the same array when the text is unchanged, so React skips re-rendering the page every frame
@@ -18,6 +18,8 @@ interface FindPiecesInput {
   setText: SetStringArray,
   setFps: SetFps,
   setOrientation: SetOrientation,
+  // The region the recorder crops to, or null while it looks for the board
+  setRoi: (roi: Roi | null) => void,
   moveTextRef: RefObject<string>,
   mode: Mode
 }
@@ -25,7 +27,7 @@ interface FindPiecesInput {
 // Reads moves off the board with the recorder, which keeps its own copy of the game: its moves go to the store, and
 // the store's changes from elsewhere (a takeback, a new game, the Lichess opponent's moves) go back to it. Returns the
 // recorder, paused, to start, pause and give regions to, and a function that stops it.
-export const findPieces = ({ model, video, setText, setFps, setOrientation, moveTextRef, mode }: FindPiecesInput) => {
+export const findPieces = ({ model, video, setText, setFps, setOrientation, setRoi, moveTextRef, mode }: FindPiecesInput) => {
   const initial = useStore.getState();
   // Play mode reads only the user's move, once it is certain, as it goes to Lichess, which can't take it back; the
   // opponent's moves come from Lichess, through the store (see below). Record mode times each move, for the PGN.
@@ -39,6 +41,7 @@ export const findPieces = ({ model, video, setText, setFps, setOrientation, move
     },
     onFps: setFps,
     onOrientation: setOrientation,
+    onRoi: setRoi,
     onError: (error) => {
       setTextIfChanged(setText, errorText(error));
     }

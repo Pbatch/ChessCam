@@ -53,14 +53,6 @@
     "select": "Gerät wählen",
     "selected": "Gerät: {{name}}"
   },
-  "region": {
-    "draw": "Bereich zeichnen",
-    "drawTitle": "Zeichne einen Bereich um das Brett",
-    "drawing": "Rahmen ziehen (abbrechen)",
-    "drawingTitle": "Zeichnen des Bereichs abbrechen",
-    "clear": "Bereich löschen",
-    "clearTitle": "Bereich löschen und das ganze Bild verwenden"
-  },
   "position": {
     "label": "Stellung: {{option}}",
     "standard": "Standard",

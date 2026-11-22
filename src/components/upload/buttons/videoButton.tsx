@@ -2,11 +2,13 @@ import { useTranslation } from "react-i18next";
 import { useRef, useState } from "react";
 import { Folder, FolderX } from "lucide-react";
 import { Icon, SidebarButton } from "../../common";
-import type { SetBoolean, VideoRef } from "../../../types";
+import { newGame } from "../../../slices/gameSlice";
+import type { SetBoolean, SetStringArray, VideoRef } from "../../../types";
 
-const VideoButton = ({ videoRef, setPlaying, videoSelected, setVideoSelected, disabled = false }: {
+const VideoButton = ({ videoRef, setPlaying, setText, videoSelected, setVideoSelected, disabled = false }: {
   videoRef: VideoRef,
   setPlaying: SetBoolean,
+  setText: SetStringArray,
   videoSelected: boolean,
   setVideoSelected: SetBoolean,
   disabled?: boolean
@@ -47,6 +49,10 @@ const VideoButton = ({ videoRef, setPlaying, videoSelected, setVideoSelected, di
     videoRef.current.style.display = "block";
     setVideoSelected(true);
     setFileName(file.name);
+    // A new video is most likely another game, so the last one's moves and the tracker's beliefs no longer apply.
+    // Closing a video keeps them, so the game can still be exported.
+    newGame();
+    setText([]);
   }
 
   const handleOnClick = () => {

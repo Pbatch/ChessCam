@@ -53,14 +53,6 @@
     "select": "Choisir un appareil",
     "selected": "Appareil : {{name}}"
   },
-  "region": {
-    "draw": "Tracer une zone",
-    "drawTitle": "Tracez une zone autour de l'échiquier",
-    "drawing": "Faites glisser un cadre (annuler)",
-    "drawingTitle": "Annuler le tracé de la zone",
-    "clear": "Effacer la zone",
-    "clearTitle": "Effacer la zone et utiliser toute l'image"
-  },
   "position": {
     "label": "Position : {{option}}",
     "standard": "Standard",

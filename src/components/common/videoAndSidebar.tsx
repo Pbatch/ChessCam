@@ -43,8 +43,8 @@ const VideoAndSidebar = ({ mode }: { mode: Mode }) => {
   const [playing, setPlaying] = useState<boolean>(false);
   const [study, setStudy] = useState<Study | null>(null);
   const [boardNumber, setBoardNumber] = useState<number>(-1);
+  // The region the recorder crops to once it finds the board, which reading the position uses too
   const [roi, setRoi] = useState<Roi | null>(null);
-  const [selecting, setSelecting] = useState<boolean>(false);
   const [canPlay, setCanPlay] = useState<boolean>(false);
   // Play mode's game, which its sidebar chooses
   const [gameSelected, setGameSelected] = useState<boolean>(false);
@@ -132,8 +132,6 @@ const VideoAndSidebar = ({ mode }: { mode: Mode }) => {
     setStudy,
     roi,
     setRoi,
-    selecting,
-    setSelecting,
     canPlay,
     setCanPlay,
     modelRef: context.modelRef,

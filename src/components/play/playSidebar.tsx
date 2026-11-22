@@ -1,8 +1,8 @@
 import i18n from "../../i18n";
 import { useTranslation } from "react-i18next";
-import { Sidebar, SidebarSection, DeviceButton, RoiButton } from "../common";
+import { Sidebar, SidebarSection, DeviceButton } from "../common";
 import type {
-  Camera, Game, Roi, SetBoolean, SetRoi, SetStringArray
+  Camera, Game, SetBoolean, SetStringArray
 } from "../../types";
 import { useUser } from "../../slices/userSlice";
 import { useEffect, useRef, useState } from "react";
@@ -18,13 +18,10 @@ import { START_FEN } from "../../utils/constants";
 const MOVE_RETRY_DELAY = 2000;
 
 const PlaySidebar = ({ camera,
-  playing, text, setText, roi, setRoi, selecting, setSelecting, canPlay, setGameSelected }: {
+  playing, text, setText, setGameSelected }: {
     camera: Camera,
     playing: boolean,
     text: string[], setText: SetStringArray,
-    roi: Roi | null, setRoi: SetRoi,
-    selecting: boolean, setSelecting: SetBoolean,
-    canPlay: boolean,
     // Whether a game is chosen, which detection waits for
     setGameSelected: SetBoolean
   }) => {
@@ -166,8 +163,6 @@ const PlaySidebar = ({ camera,
       {/* Stays while detecting, disabled, except on landscape phones, which need the room */}
       <SidebarSection title={t("common.setup")} className={playing ? "sidebar-section--hidden-short" : ""}>
         <DeviceButton camera={camera} disabled={playing} />
-        <RoiButton roi={roi} setRoi={setRoi} selecting={selecting} setSelecting={setSelecting}
-          canPlay={canPlay && !playing} />
         <GamesButton setGameId={setGameId} setColor={setColor} setText={setText} disabled={playing} />
       </SidebarSection>
     </Sidebar>

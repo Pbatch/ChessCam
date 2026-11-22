@@ -1,20 +1,19 @@
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { VideoButton } from "./buttons";
-import { Sidebar, SidebarSection, FenButton, RoiButton } from "../common";
+import { Sidebar, SidebarSection, FenButton } from "../common";
 import type {
-  ModelRefs, Roi, SetBoolean, SetRoi, SetStringArray, VideoRef
+  ModelRefs, Roi, SetBoolean, SetStringArray, VideoRef
 } from "../../types";
 
 // Playback is in the controls over the video (videoControls.tsx)
 const UploadSidebar = ({ videoRef, modelRef,
-  text, setText, playing, setPlaying, roi, setRoi, selecting, setSelecting, canPlay }: {
+  text, setText, playing, setPlaying, roi, canPlay }: {
   videoRef: VideoRef,
   modelRef: ModelRefs["modelRef"],
   text: string[], setText: SetStringArray,
   playing: boolean, setPlaying: SetBoolean,
-  roi: Roi | null, setRoi: SetRoi,
-  selecting: boolean, setSelecting: SetBoolean,
+  roi: Roi | null,
   canPlay: boolean
 }) => {
   const { t } = useTranslation();
@@ -30,12 +29,11 @@ const UploadSidebar = ({ videoRef, modelRef,
         <VideoButton
           videoRef={videoRef}
           setPlaying={setPlaying}
+          setText={setText}
           videoSelected={videoSelected}
           setVideoSelected={setVideoSelected}
           disabled={playing}
         />
-        <RoiButton roi={roi} setRoi={setRoi} selecting={selecting} setSelecting={setSelecting}
-          canPlay={canPlay && !playing} />
         <FenButton modelRef={modelRef} videoRef={videoRef} roi={roi} setText={setText}
           canPlay={canPlay && !playing} />
       </SidebarSection>

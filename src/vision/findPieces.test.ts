@@ -31,7 +31,7 @@ const { findPieces } = await import("./findPieces");
 const stops: (() => void)[] = [];
 const start = (mode: "record" | "upload" | "broadcast" | "play") => {
   const found = findPieces({
-    model: {} as Model, video: {} as HTMLVideoElement, setText: vi.fn(), setFps: vi.fn(), setOrientation: vi.fn(),
+    model: {} as Model, video: {} as HTMLVideoElement, setText: vi.fn(), setFps: vi.fn(), setOrientation: vi.fn(), setRoi: vi.fn(),
     moveTextRef: { current: "" }, mode
   });
   stops.push(found.stop);

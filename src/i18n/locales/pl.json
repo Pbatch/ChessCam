@@ -53,14 +53,6 @@
     "select": "Wybierz urządzenie",
     "selected": "Urządzenie: {{name}}"
   },
-  "region": {
-    "draw": "Zaznacz obszar",
-    "drawTitle": "Zaznacz obszar wokół szachownicy",
-    "drawing": "Przeciągnij ramkę (anuluj)",
-    "drawingTitle": "Anuluj zaznaczanie obszaru",
-    "clear": "Wyczyść obszar",
-    "clearTitle": "Wyczyść obszar i użyj całego kadru"
-  },
   "position": {
     "label": "Pozycja: {{option}}",
     "standard": "Standardowa",
